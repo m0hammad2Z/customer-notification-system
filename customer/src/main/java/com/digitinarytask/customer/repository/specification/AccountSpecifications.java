@@ -7,6 +7,7 @@ import com.digitinarytask.customer.dto.search.AccountSearchDTO;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,5 +80,9 @@ public class AccountSpecifications {
 
     public static Specification<Account> withCustomerId(Long customerId){
         return (root, query, cb) -> cb.equal(root.get("customer").get("id"), customerId);
+    }
+
+    public static Specification<Account> withBalanceGt(BigDecimal balance) {
+        return (root, query, cb) -> cb.greaterThan(root.get("balance"), balance);
     }
 }

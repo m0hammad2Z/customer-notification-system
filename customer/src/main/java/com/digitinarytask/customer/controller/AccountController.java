@@ -89,9 +89,9 @@ public class AccountController {
         @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content(mediaType = "application/json")),
         @ApiResponse(responseCode = "404", description = "Top accounts not found", content = @Content(mediaType = "application/json")),
     })
-    @GetMapping("/top/{limit}")
-    public ResponseEntity<Page<AccountDTO>> getTopAccountsByBalance(@PathVariable int limit, @org.springdoc.core.annotations.ParameterObject Pageable pageable) {
-        return ResponseEntity.ok(accountService.findTopAccountsByBalance(limit, pageable));
+    @GetMapping("/top/{balance}")
+    public ResponseEntity<Page<AccountDTO>> getTopAccountsByBalance(@PathVariable int balance, @org.springdoc.core.annotations.ParameterObject Pageable pageable) {
+        return ResponseEntity.ok(accountService.findTopAccountsByBalance(balance, pageable));
     }
 
     @Operation(summary = "Search Accounts")

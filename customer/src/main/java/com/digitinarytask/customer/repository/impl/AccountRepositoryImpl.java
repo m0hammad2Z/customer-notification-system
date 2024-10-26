@@ -74,8 +74,8 @@ public class AccountRepositoryImpl extends AbstractSpecificationRepository<Accou
     @Override
     public Page<Account> findTopAccountsByBalance(int limit, Pageable pageable) {
         return findBySpecification(
-            AccountSpecifications.withStatus(AccountStatus.ACTIVE),
-            PageRequest.of(pageable.getPageNumber(), limit, pageable.getSort()),
+            AccountSpecifications.withStatus(AccountStatus.ACTIVE).and(AccountSpecifications.withBalanceGt(BigDecimal.valueOf(limit))),
+            PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort()),
             Account.class
         );
     }

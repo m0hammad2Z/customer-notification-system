@@ -129,7 +129,7 @@ public class AccountService {
      */
     @Transactional
     @Caching(evict = {
-        @CacheEvict(value = "customerAccounts", key = "#account.customer.id"), // Ensure correct customer ID is used
+        @CacheEvict(value = "customerAccounts", allEntries = true),
         @CacheEvict(value = "topAccounts", allEntries = true),
         @CacheEvict(value = "accounts", key = "#accountId")
     })
@@ -232,10 +232,11 @@ public class AccountService {
      * Fetches the top accounts by balance.
      */
     @Transactional(readOnly = true)
-    @Cacheable(value = "topAccounts", key = "#limit")
-    public Page<AccountDTO> findTopAccountsByBalance(int limit, Pageable pageable) {
-        log.debug("Fetching top {} accounts by balance", limit);
-        Page<Account> page = accountRepository.findTopAccountsByBalance(limit, pageable);
+    @Cacheable(value = "topAccounts", key = "#balance")
+    public Page<AccountDTO> findTopAccountsByBalance(int balance, Pageable pageable) {
+        log.debug("Fetching top {} accounts by balance", balance);
+        accountValidationService.validateBalance(balance);
+        Page<Account> page = accountRepository.findTopAccountsByBalance(balance, pageable);
         return page.map(accountMapper::toDTO);
     }
 

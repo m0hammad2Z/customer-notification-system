@@ -16,7 +16,6 @@ public class AddressValidationService {
     public void validateAddressDTO(AddressDTO address) {
         Assert.notNull(address, "Address cannot be null");
 
-
         validatePostalCode(address.getPostalCode());
         validateCity(address.getCity());
         validateCountry(address.getCountry());

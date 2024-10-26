@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 public class CustomerValidationService {
 
     private final OrganizationRepository organizationRepository;
+    private final AccountValidationService accountValidationService;
+    private final AddressValidationService addressValidationService;
 
     /**
      * Validates new customer creation
@@ -29,6 +31,14 @@ public class CustomerValidationService {
             validateIndividualCustomer(individualDTO);
         } else if (customerDTO instanceof OrganizationCustomerDTO organizationDTO) {
             validateOrganizationCustomer(organizationDTO);
+        }
+
+        if (customerDTO.getAddresses() != null && !customerDTO.getAddresses().isEmpty()) {
+            customerDTO.getAddresses().forEach(addressValidationService::validateAddressDTO);
+        }
+
+        if (customerDTO.getAccounts() != null && !customerDTO.getAccounts().isEmpty()) {
+            customerDTO.getAccounts().forEach(accountValidationService::validateNewAccount);
         }
     }
 
@@ -48,6 +58,15 @@ public class CustomerValidationService {
             validateOrganizationCustomerUpdate(
                 (OrganizationCustomerDTO) updateDTO);
         }
+
+        if (updateDTO.getAddresses() != null && !updateDTO.getAddresses().isEmpty()) {
+            updateDTO.getAddresses().forEach(addressValidationService::validateAddressDTO);
+        }
+
+        if (updateDTO.getAccounts() != null && !updateDTO.getAccounts().isEmpty()) {
+            updateDTO.getAccounts().forEach(accountValidationService::validateNewAccount);
+        }
+
     }
 
     /**

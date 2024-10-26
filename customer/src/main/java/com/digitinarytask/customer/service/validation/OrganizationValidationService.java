@@ -26,6 +26,15 @@ public class OrganizationValidationService {
         }
     }
 
+    /**
+     * Validates new organization creation
+     */
+    public void validateNewOrganization(OrganizationDTO organizationDTO) {
+        Assert.notNull(organizationDTO, "Organization data cannot be null");
+
+        validateOrganizationName(organizationDTO.getLegalName());
+        validateRegistrationNumber(organizationDTO.getRegistrationNumber());
+    }
 
     /**
      * Validates organization update
@@ -48,11 +57,6 @@ public class OrganizationValidationService {
     private void validateOrganizationName(String name) {
         if (name == null || name.trim().isEmpty()) {
             throw new OrganizationException("Organization name is required",
-                OrganizationErrorCode.INVALID_ORG_DATA);
-        }
-
-        if (name.length() < 2 || name.length() > 100) {
-            throw new OrganizationException("Organization name must be between 2 and 100 characters",
                 OrganizationErrorCode.INVALID_ORG_DATA);
         }
     }

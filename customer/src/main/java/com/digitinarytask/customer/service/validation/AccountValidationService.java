@@ -14,7 +14,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Service
+
 public class AccountValidationService {
+
 
     /**
      * Validates the id
@@ -168,6 +170,13 @@ public class AccountValidationService {
         if (currentStatus == AccountStatus.INACTIVE && newStatus == AccountStatus.INACTIVE) {
             throw new AccountException("Inactive accounts cannot be modified",
                 AccountErrorCode.INVALID_ACCOUNT_STATUS);
+        }
+    }
+
+    public void validateBalance(int balance) {
+        if (balance < 0) {
+            throw new AccountException("Balance cannot be negative",
+                AccountErrorCode.INVALID_ACCOUNT_DATA);
         }
     }
 }
