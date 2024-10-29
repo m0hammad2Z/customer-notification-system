@@ -11,7 +11,7 @@
 ### 2. Advanced Search Capabilities
 - **Dynamic Query Builder**
     - Type-safe query construction using JPA Criteria API
-    - Complex search conditions (date ranges, pattern matching, numeric comparisons)
+    - Complex search conditions
     - Automatic join handling for related entities
     - Custom result projections and dynamic sorting
 
@@ -24,11 +24,9 @@
 ### 4. Performance Optimizations
 - **Intelligent Caching System**
     - Strategic cache implementation for frequently accessed data
-    - Cache eviction policies
     - Transaction-aware caching
 - **Lazy Loading Strategy**
     - Optimized data fetching
-    - Strategic use of fetch joins
 
 ## 🚀 Quick Start Guide
 
@@ -115,12 +113,17 @@ public Customer createCustomer(CustomerDTO dto) {
 
 ### 2. Dynamic Search Example
 ```java
-CustomerSearchCriteria criteria = new CustomerSearchCriteria()
-    .withName("John")
-    .withDateRange(startDate, endDate)
-    .withType(CustomerType.INDIVIDUAL);
+AccountSearchDTO search = AccountSearchDTO.builder()
+            .accountNumber("123456789")
+            .accountType(AccountType.CURRENT)
+            .customerId(2)
+            .page(0)
+            .size(10)
+            .sortBy("id")
+            .sortDirection("asc")
+            .build();
 
-Page<Customer> results = customerService.search(criteria, pageable);
+Page<AccountDTO> results = accountService.search(search);
 ```
 
 ### 3. WebSocket Integration
